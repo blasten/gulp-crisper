@@ -3,8 +3,6 @@ var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
 var gutil = require('gulp-util');
-var mkdirp = require('mkdirp');
-var rimraf = require('rimraf');
 var crisper = require('../');
 
 var TEST_FILE = 'test/fixtures/index.html';
@@ -21,12 +19,12 @@ describe('Split inline scripts from an HTML file', function (argument) {
 			var basename = path.basename(file.path);
 			if (basename === JS_OUTPUT_FILE_NAME) {
 
-				assert(~file.contents.toString().indexOf('works!'));
-				assert(~file.contents.toString().indexOf('window.$'));
+				assert(file.contents.toString().indexOf('works!') !== -1);
+				assert(file.contents.toString().indexOf('window.$') !== -1);
 
 			} else if (basename === path.basename(TEST_FILE)) {
 
-				assert(~file.contents.toString().indexOf(JS_OUTPUT_FILE_NAME));
+				assert(file.contents.toString().indexOf(JS_OUTPUT_FILE_NAME) !== -1);
 
 			}
 		});
