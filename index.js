@@ -1,4 +1,5 @@
 'use strict';
+
 var path = require('path');
 var gutil = require('gulp-util');
 var through = require('through2');
@@ -6,9 +7,11 @@ var crisper = require('crisper');
 
 module.exports = function (opts) {
 	opts = opts || {};
-	opts.jsFileName = opts.jsFileName || 'dep.js';
+	var currentjsFileName = opts.jsFileName;
 
 	return through.obj(function (file, enc, cb) {
+
+		opts.jsFileName = currentjsFileName || path.basename(file.path);
 
 		if (file.isNull()) {
 			cb(null, file);
@@ -40,7 +43,7 @@ module.exports = function (opts) {
 
 				cb();
 			} else {
-				cb(new gutil.PluginError('gulp-crisper', 'Unexpected output', {fileName: file.path}));
+				cb(new gutil.PluginError('gulp-crisper', 'Unexpected output'));
 			}
 		} catch (err) {
 			cb(new gutil.PluginError('gulp-crisper', err, {fileName: file.path}));
