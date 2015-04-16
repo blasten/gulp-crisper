@@ -11,7 +11,7 @@ module.exports = function (opts) {
 
 	return through.obj(function (file, enc, cb) {
 
-		opts.jsFileName = currentjsFileName || path.basename(file.path);
+		opts.jsFileName = currentjsFileName || path.basename(file.path, '.html') + '.js';
 
 		if (file.isNull()) {
 			cb(null, file);
